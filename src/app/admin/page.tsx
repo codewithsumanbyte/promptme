@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma"
 import { AnalyticsDashboard } from "@/components/admin/analytics-charts"
 import { Prompt } from "@prisma/client"
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminDashboard() {
   const totalPrompts = await prisma.prompt.count() || 0;
   

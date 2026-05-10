@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
+export const dynamic = 'force-dynamic'
+
 export default async function PromptDetailsPage({
   params,
 }: {
@@ -22,8 +24,11 @@ export default async function PromptDetailsPage({
 
   const tags = prompt.tags ? prompt.tags.split(',') : []
 
-  // Fire and forget view increment
-  fetch(`http://localhost:3000/api/prompts/${promptId}/view`, { method: 'POST' }).catch(() => {})
+  // Direct DB increment on view
+  prisma.prompt.update({
+    where: { id: promptId },
+    data: { views: { increment: 1 } }
+  }).catch(console.error)
 
   return (
     <div className="container max-w-4xl mx-auto px-4 py-12">
