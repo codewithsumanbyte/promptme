@@ -7,8 +7,8 @@ import { Prompt } from "@prisma/client"
 export default async function AdminDashboard() {
   const totalPrompts = await prisma.prompt.count() || 0;
   
-  let totalViews = { _sum: { views: 0 } };
-  let totalCopies = { _sum: { copies: 0 } };
+  let totalViews: { _sum: { views: number | null } } = { _sum: { views: 0 } };
+  let totalCopies: { _sum: { copies: number | null } } = { _sum: { copies: 0 } };
   let topPrompts: Pick<Prompt, 'title' | 'views' | 'copies'>[] = [];
 
   try {

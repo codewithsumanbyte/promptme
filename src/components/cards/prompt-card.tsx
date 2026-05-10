@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Copy, Check, Bookmark, Heart, MessageSquare, Code, Video, ImageIcon, CheckCircle } from "lucide-react"
+import { Copy, Check, Bookmark, Heart, MessageSquare, Code, Video, ImageIcon, CheckCircle, LucideIcon } from "lucide-react"
 import { toast } from "sonner"
 import { PromptItem, usePromptStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
@@ -11,7 +11,7 @@ interface PromptCardProps {
   className?: string
 }
 
-const CategoryIconMap: Record<string, React.ElementType> = {
+const CategoryIconMap: Record<string, LucideIcon> = {
   image: ImageIcon,
   video: Video,
   chatgpt: MessageSquare,
