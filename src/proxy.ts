@@ -2,9 +2,13 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function proxy(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  const isApiAdmin = request.nextUrl.pathname.startsWith('/api/admin')
+  const isAdmin = request.nextUrl.pathname.startsWith('/admin')
+
+  if (isAdmin || isApiAdmin) {
     const authHeader = request.headers.get('authorization')
-    const correctPassword = process.env.ADMIN_PASSWORD || 'admin123'
+    const VALID_USER = 'promptsuman'
+    const VALID_PWD = 'promptme@2026'
     
     if (!authHeader) {
       return new NextResponse('Authentication required', {
@@ -13,11 +17,15 @@ export function proxy(request: NextRequest) {
       })
     }
 
-    const authValue = authHeader.split(' ')[1]
-    const [user, pwd] = atob(authValue).split(':')
+    try {
+      const authValue = authHeader.split(' ')[1]
+      const [user, pwd] = atob(authValue).split(':')
 
-    if (user === 'admin' && pwd === correctPassword) {
-      return NextResponse.next()
+      if (user === VALID_USER && pwd === VALID_PWD) {
+        return NextResponse.next()
+      }
+    } catch (err) {
+      // silent fail to unauthorized
     }
 
     return new NextResponse('Invalid credentials', {
@@ -30,5 +38,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/admin/:path*',
+  matcher: ['/admin/:path*', '/api/admin/:path*'],
 }
