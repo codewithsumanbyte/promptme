@@ -23,8 +23,10 @@ export function Navbar() {
     { name: "Home", href: "/" },
     { name: "Trending", href: "/trending" },
     { name: "Explore", href: "/explore" },
-    { name: "Categories", href: "/categories" },
+    { name: "Lab", href: "/lab" },
+    { name: "Wallpapers", href: "/wallpapers" },
     { name: "Saved", href: "/saved" },
+    { name: "About", href: "/about" },
   ]
 
   return (
@@ -38,8 +40,9 @@ export function Navbar() {
         )}>
           
           {/* Logo anchor restored for identity balance */}
-          <Link href="/" className="flex items-center shrink-0" onClick={() => setMobileOpen(false)}>
-            <img src="/logo.png" alt="PromptMe" className="h-8 md:h-10 w-auto object-contain" />
+          {/* Stylized Name branding instead of logo */}
+          <Link href="/" className="flex items-center shrink-0 gap-1.5" onClick={() => setMobileOpen(false)}>
+            <span className="text-xl font-extrabold tracking-tighter text-white">WTF<span className="text-zinc-400">prompt</span></span>
           </Link>
 
           {/* Desktop Nav Center */}

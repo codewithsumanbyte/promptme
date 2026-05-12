@@ -8,12 +8,12 @@ export function proxy(request: NextRequest) {
   if (isAdmin || isApiAdmin) {
     const authHeader = request.headers.get('authorization')
     const VALID_USER = 'promptsuman'
-    const VALID_PWD = 'promptme@2026'
+    const VALID_PWD = 'wtfprompt@2026'
     
     if (!authHeader) {
       return new NextResponse('Authentication required', {
         status: 401,
-        headers: { 'WWW-Authenticate': 'Basic realm="Secure Area"' },
+        headers: { 'WWW-Authenticate': 'Basic realm="WTFprompt Admin"' },
       })
     }
 
@@ -30,7 +30,7 @@ export function proxy(request: NextRequest) {
 
     return new NextResponse('Invalid credentials', {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="Secure Area"' },
+      headers: { 'WWW-Authenticate': 'Basic realm="WTFprompt Admin"' },
     })
   }
 

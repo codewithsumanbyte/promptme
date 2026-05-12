@@ -38,7 +38,7 @@ export const usePromptStore = create<PromptStore>()(
       isSaved: (id) => get().savedPrompts.some((p) => p.id === id),
     }),
     {
-      name: 'promptme-storage',
+      name: 'wtfprompt-storage',
     }
   )
 )

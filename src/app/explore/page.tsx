@@ -1,9 +1,9 @@
-import { Suspense } from "react"
 import { Search } from "lucide-react"
 import { PromptCard } from "@/components/cards/prompt-card"
 import { Input } from "@/components/ui/input"
 import prisma from "@/lib/prisma"
 import { Prisma } from "@prisma/client"
+import Link from "next/link"
 
 export const dynamic = 'force-dynamic'
 
@@ -17,17 +17,19 @@ export default async function ExplorePage({
   const category = resolvedParams.category || ""
 
   const where: Prisma.PromptWhereInput = {}
-  
+
   if (q) {
     where.OR = [
       { title: { contains: q } },
       { description: { contains: q } },
-      { promptText: { contains: q } }
+      { promptText: { contains: q } },
+      { category: { contains: q } },
     ]
   }
 
-  if (category) {
-    where.category = category
+  if (category && category !== "All") {
+    // Match partial since data could be 'Image' or 'Image Generation'
+    where.category = { contains: category }
   }
 
   const prompts = await prisma.prompt.findMany({
@@ -42,65 +44,104 @@ export default async function ExplorePage({
 
   const categories = [
     "All",
-    "Image Generation",
-    "Video Generation",
-    "ChatGPT",
+    "Image",
+    "Video",
+    "Chat",
     "Coding",
     "Career",
-    "Marketing",
-    "Productivity"
+    "Art",
+    "Copywriting"
   ]
 
   return (
-    <div className="container max-w-screen-2xl mx-auto px-4 py-8">
-      <div className="flex flex-col items-center mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight mb-4">Explore Prompts</h1>
-        <p className="text-muted-foreground max-w-2xl">
-          Search our database of viral AI prompts. Filter by category or search by keywords to find exactly what you need.
-        </p>
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-6 mb-8">
-        {/* Search Bar */}
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <form action="/explore">
-            <Input 
-              name="q"
-              defaultValue={q}
-              placeholder="Search prompts, tools, or keywords..." 
-              className="pl-10 h-12 bg-card/50 backdrop-blur-sm border-border/50 text-base"
-            />
-          </form>
-        </div>
-
-        {/* Categories (Simple horizontal scroll on mobile, wrap on desktop) */}
-        <div className="flex overflow-x-auto hide-scrollbar gap-2 pb-2 md:pb-0 md:flex-wrap">
-          {categories.map(cat => {
-            const isSelected = (cat === "All" && !category) || category === cat
-            return (
-              <a 
-                key={cat} 
-                href={`/explore${cat === "All" ? "" : `?category=${encodeURIComponent(cat)}`}`}
-                className={`shrink-0 px-4 py-2 rounded-full border transition-colors text-sm font-medium ${
-                  isSelected 
-                    ? "bg-primary text-primary-foreground border-primary" 
-                    : "bg-card/50 border-border/50 text-foreground hover:bg-muted"
-                }`}
-              >
-                {cat}
-              </a>
-            )
-          })}
+    <div className="min-h-screen bg-black pb-20">
+      {/* Hero Title */}
+      <div className="relative border-b border-white/5 bg-zinc-950/30">
+        <div className="container max-w-7xl mx-auto px-4 py-16 flex flex-col items-center text-center">
+          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4">
+            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-600">Universe</span>
+          </h1>
+          <p className="text-zinc-400 text-sm md:text-base max-w-xl font-medium">
+            Instantly harness industry-leading intelligence. Search across categories to retrieve high-performance prompt libraries.
+          </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {formattedPrompts.length > 0 ? formattedPrompts.map((prompt) => (
-          <PromptCard key={prompt.id} prompt={prompt} />
-        )) : (
-          <div className="col-span-full py-20 text-center text-muted-foreground">
-            No prompts found matching your criteria. Try a different search.
+      <div className="container max-w-7xl mx-auto px-4 py-12">
+
+        {/* SEARCH & FILTER CONTROLS */}
+        <div className="flex flex-col gap-8 mb-12">
+
+          {/* Dynamic Search Console */}
+          <div className="relative group max-w-2xl mx-auto w-full">
+            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-2xl blur opacity-20 group-hover:opacity-60 transition-opacity" />
+            <div className="relative flex items-center bg-zinc-950 border border-white/10 rounded-2xl focus-within:border-white/30 transition-all px-4">
+              <Search className="h-5 w-5 text-zinc-500" />
+              <form action="/explore" className="w-full">
+                <input
+                  type="hidden"
+                  name="category"
+                  value={category}
+                />
+                <Input
+                  name="q"
+                  defaultValue={q}
+                  autoComplete="off"
+                  placeholder="Search engine capabilities, strings, or subjects..."
+                  className="border-0 bg-transparent h-14 focus-visible:ring-0 text-white placeholder:text-zinc-600 text-base pl-3 w-full"
+                />
+              </form>
+            </div>
+          </div>
+
+          {/* Segmented Control Bar */}
+          <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3">
+            {categories.map(cat => {
+              const isAll = cat === "All"
+              const isSelected = (isAll && !category) || category.toLowerCase() === cat.toLowerCase()
+
+              // Generate link ensuring current search query persists
+              const queryParams = new URLSearchParams()
+              if (q) queryParams.set("q", q)
+              if (!isAll) queryParams.set("category", cat)
+
+              const href = `/explore${queryParams.toString() ? `?${queryParams.toString()}` : ""}`
+
+              return (
+                <Link
+                  key={cat}
+                  href={href}
+                  className={`px-5 py-2.5 rounded-full border text-xs md:text-sm font-bold tracking-wide transition-all duration-300 whitespace-nowrap ${isSelected
+                      ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.1)] scale-105"
+                      : "bg-zinc-950 border-white/10 text-zinc-400 hover:text-white hover:border-white/30"
+                    }`}
+                >
+                  {cat}
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* RESULTS GRID */}
+        {formattedPrompts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            {formattedPrompts.map((prompt) => (
+              <PromptCard key={prompt.id} prompt={prompt} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-32 text-center border border-dashed border-white/5 rounded-3xl bg-zinc-950/20">
+            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-6">
+              <Search className="h-6 w-6 text-zinc-700" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">No Prompts Located</h3>
+            <p className="text-zinc-500 text-sm max-w-xs">We couldn't find any prompt artifacts correlating to "{q || category}". Try generalized terminology.</p>
+            {(q || category) && (
+              <Link href="/explore" className="mt-6 text-xs font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-4">
+                Reset Filters
+              </Link>
+            )}
           </div>
         )}
       </div>

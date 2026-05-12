@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { PlusCircle, List, BarChart3, TrendingUp, Eye, ArrowUpRight } from "lucide-react"
+import { PlusCircle, List, BarChart3, TrendingUp, Eye, ArrowUpRight, Star, ImageIcon } from "lucide-react"
 import prisma from "@/lib/prisma"
 import { AnalyticsDashboard } from "@/components/admin/analytics-charts"
 import { Prompt } from "@prisma/client"
@@ -118,8 +118,28 @@ export default async function AdminDashboard() {
                  <PlusCircle className="w-6 h-6 text-zinc-400" />
                </div>
                <div>
-                 <h3 className="text-lg font-bold text-white mb-0.5">Ingest Asset</h3>
+                 <h3 className="text-lg font-bold text-white mb-0.5">Ingest Prompt</h3>
                  <p className="text-sm text-zinc-500 font-medium">Manually release a new viral prompt item.</p>
+               </div>
+            </Link>
+
+            <Link href="/admin/wallpapers" className="group border border-indigo-500/30 bg-indigo-950/10 hover:bg-indigo-900/20 transition-all rounded-3xl p-6 flex items-center gap-6">
+               <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:scale-105 transition-transform">
+                 <ImageIcon className="w-6 h-6 text-indigo-400" />
+               </div>
+               <div>
+                 <h3 className="text-lg font-bold text-white mb-0.5">Upload Wallpaper</h3>
+                 <p className="text-sm text-zinc-500 font-medium">Deploy new 4K assets straight to the cloud.</p>
+               </div>
+            </Link>
+
+            <Link href="/admin/wallpapers/manage" className="group border border-white/10 bg-zinc-950 hover:bg-white/[0.03] transition-all rounded-3xl p-6 flex items-center gap-6">
+               <div className="w-14 h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                 <Star className="w-6 h-6 text-zinc-400" />
+               </div>
+               <div>
+                 <h3 className="text-lg font-bold text-white mb-0.5">Curate Wallpapers</h3>
+                 <p className="text-sm text-zinc-500 font-medium">Edit, delete, or pick Top Spotlight picks.</p>
                </div>
             </Link>
          </div>
@@ -127,3 +147,4 @@ export default async function AdminDashboard() {
     </div>
   )
 }
+

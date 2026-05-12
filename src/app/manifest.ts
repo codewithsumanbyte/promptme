@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'PromptMe AI',
-    short_name: 'PromptMe',
+    name: 'WTFprompt AI',
+    short_name: 'WTFprompt',
     description: 'Discover Viral AI Prompts Before Everyone Else',
     start_url: '/',
     display: 'standalone',
@@ -16,7 +16,7 @@ export default function manifest(): MetadataRoute.Manifest {
         type: 'image/svg+xml',
       },
       {
-        src: '/logo.png',
+        src: '/wtf-logo.png',
         sizes: '512x512',
         type: 'image/png',
       },

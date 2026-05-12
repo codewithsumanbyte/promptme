@@ -20,14 +20,15 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "PromptMe | Viral AI Prompts",
+  title: "WTFprompt | Viral AI Prompts",
   description: "Discover Viral AI Prompts Before Everyone Else",
-  applicationName: "PromptMe",
+  applicationName: "WTFprompt",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "PromptMe",
+    title: "WTFprompt",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -37,13 +38,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground antialiased pb-16 md:pb-0`}>
+      <body 
+        className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground antialiased pb-16 md:pb-0 overflow-x-hidden`}
+        suppressHydrationWarning
+      >
         <Navbar />
         <main className="flex-1 flex flex-col">
           {children}
         </main>
         <BottomNav />
         <Toaster theme="dark" />
+        
+        {/* Service Worker Registration */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js');
+                });
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   );

@@ -29,3 +29,15 @@ model Prompt {
   saves          Int      @default(0)
   createdAt      DateTime @default(now())
 }
+
+model Wallpaper {
+  id          String   @id @default(cuid())
+  title       String
+  imageUrl    String
+  deviceType  String   // 'desktop', 'mobile', 'tablet'
+  category    String   // e.g., 'Cyberpunk', 'Minimalist', 'Abstract'
+  isTop       Boolean  @default(false) // For landing page spotlight
+  views       Int      @default(0)
+  downloads   Int      @default(0)
+  createdAt   DateTime @default(now())
+}
