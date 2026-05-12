@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/navbar";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -109,6 +110,19 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Google Analytics 4 Optimized Integration */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-26QTWKBM9L"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-26QTWKBM9L');
+          `}
+        </Script>
       </body>
     </html>
   );
