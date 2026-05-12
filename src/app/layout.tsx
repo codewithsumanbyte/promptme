@@ -68,6 +68,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  verification: {
+    google: "BGlI8JciGBjL2la2HyWC_yTDnkkqIyss5lJQbv3EHUM",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
