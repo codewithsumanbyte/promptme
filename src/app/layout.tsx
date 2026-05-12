@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   verification: {
-    google: "BGlI8JciGBjL2la2HyWC_yTDnkkqIyss5lJQbv3EHUM",
+    google: "2CHJBg-qKXDrhWRAOxOwL8bGxIXIq4R-QM6EGL9MMeM",
   },
   appleWebApp: {
     capable: true,
