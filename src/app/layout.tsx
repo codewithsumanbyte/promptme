@@ -19,16 +19,66 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+const baseUrl = "https://wtfprompt.vercel.app";
+
 export const metadata: Metadata = {
-  title: "WTFprompt | Viral AI Prompts",
-  description: "Discover Viral AI Prompts Before Everyone Else",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "WTFprompt | Premium AI Prompts & Dynamic 4K Wallpapers",
+    template: "%s | WTFprompt"
+  },
+  description: "Unlock the future of digital art. Discover viral AI prompts, high-performance prompt engineering guides, and ultra-high definition 4K AI-generated wallpapers for desktop & mobile.",
   applicationName: "WTFprompt",
+  keywords: [
+    "AI Prompts", "Midjourney Prompts", "Stable Diffusion", "Prompt Engineering", 
+    "4K Wallpapers", "AI Generated Art", "ChatGPT Prompts", "Premium Prompts", 
+    "Digital Art Marketplace", "Cyberpunk Wallpaper", "Anime Art AI"
+  ],
+  authors: [{ name: "WTFprompt Labs" }],
+  creator: "WTFprompt Team",
+  publisher: "WTFprompt",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: "WTFprompt | Discover Premium AI Prompts & High-End Visuals",
+    description: "Access top-tier prompt frameworks and stunning 4K AI art. Elevate your digital workspace now.",
+    url: baseUrl,
+    siteName: "WTFprompt",
+    images: [
+      {
+        url: "/hero-card-bg.png",
+        width: 1200,
+        height: 630,
+        alt: "WTFprompt Digital Landscape",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "WTFprompt | Viral AI Prompts & 4K Art",
+    description: "Level up your AI generation workflow with premium curated prompts and free ultra-HD wallpapers.",
+    images: ["/hero-card-bg.png"],
+    creator: "@wtfprompt",
+  },
+  alternates: {
+    canonical: "/",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "WTFprompt",
   },
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icons/icon-192x192.png",
+    shortcut: "/icons/icon-192x192.png",
+    apple: "/icons/icon-192x192.png",
+  }
 };
 
 export default function RootLayout({
