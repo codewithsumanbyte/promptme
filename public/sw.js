@@ -1,9 +1,10 @@
 // Service Worker required for PWA functionality
 const CACHE_NAME = 'promptme-cache-v1';
 const urlsToCache = [
-  '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/manifest.webmanifest',
+  '/admin-manifest.json',
+  '/icon.svg',
+  '/wtf-logo.png'
 ];
 
 self.addEventListener('install', (event) => {

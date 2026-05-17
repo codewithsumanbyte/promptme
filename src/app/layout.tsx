@@ -77,7 +77,6 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: "WTFprompt",
   },
-  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

@@ -1,6 +1,12 @@
 import Link from "next/link"
 import { LayoutDashboard, LogOut, PlusCircle, Settings } from "lucide-react"
 import { InstallButton } from "@/components/InstallButton"
+import { BackButton } from "@/components/admin/BackButton"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  manifest: "/admin-manifest.json",
+}
 
 export default function AdminLayout({
   children,
@@ -12,6 +18,7 @@ export default function AdminLayout({
       {/* Admin Sidebar/Header */}
       <header className="w-full border-b border-white/10 bg-zinc-950 px-4 md:px-6 h-16 flex items-center justify-between sticky top-0 z-50 backdrop-blur-md">
          <div className="flex items-center gap-4">
+            <BackButton />
             <Link href="/admin" className="flex items-center">
               <img src="/wtf-logo.png" alt="WTFprompt" className="h-10 md:h-12 w-auto object-contain" />
               <span className="hidden sm:inline text-zinc-500 text-[10px] font-bold uppercase tracking-widest ml-1">HUB</span>
